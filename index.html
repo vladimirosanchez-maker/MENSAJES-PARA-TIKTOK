@@ -1,1 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>🔥 Vladimiro | Transforma Tu Vida</title>
+
+<link rel="stylesheet" href="styles.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>🔥 Vladimiro | Transforma Tu Vida</h1>
+        <p class="subtitle">
+            Crea, analiza y optimiza mensajes virales para TikTok e Instagram.
+        </p>
+    </header>
+
+    <!-- API -->
+
+    <section class="card">
+
+        <h2>🔑 OpenAI API Key</h2>
+
+        <input
+            type="password"
+            id="apiKey"
+            placeholder="Pega aquí tu API Key"
+        >
+
+        <button id="saveApiKey">
+            Guardar API Key
+        </button>
+
+    </section>
+
+    <!-- CONFIGURACIÓN -->
+
+    <section class="card">
+
+        <h2>🎯 Crear Contenido</h2>
+
+        <label>Tu idea principal</label>
+
+        <textarea
+            id="idea"
+            rows="5"
+            placeholder="Ejemplo: Mi pareja me dejó..."
+        ></textarea>
+
+        <label>Categoría</label>
+
+        <select id="categoria">
+
+            <option>Relaciones</option>
+            <option>Amor propio</option>
+            <option>Crecimiento personal</option>
+            <option>Familia</option>
+            <option>Reflexiones de vida</option>
+            <option>Soledad</option>
+            <option>Síndrome del impostor</option>
+            <option>Resiliencia</option>
+            <option>Perdón y resentimiento</option>
+
+        </select>
+
+        <label>Emoción principal</label>
+
+        <select id="emocion">
+
+            <option>Dolor</option>
+            <option>Reflexión</option>
+            <option>Confrontación</option>
+            <option>Esperanza</option>
+            <option>Amor propio</option>
+            <option>Inspiración</option>
+
+        </select>
+
+        <label>Longitud</label>
+
+        <select id="longitud">
+
+            <option>Frase Viral</option>
+            <option>Hook Viral</option>
+            <option>TikTok Completo</option>
+
+        </select>
+
+        <div class="switch-container">
+
+            <label class="switch">
+
+                <input type="checkbox" id="modoVladimiro" checked>
+
+                <span class="slider"></span>
+
+            </label>
+
+            <span>
+                🔥 Modo Vladimiro
+            </span>
+
+        </div>
+
+        <button id="generateBtn">
+
+            🚀 Generar
+
+        </button>
+
+    </section>
+
+    <!-- RESULTADOS -->
+
+    <section class="card">
+
+        <h2>✨ Resultado</h2>
+
+        <div id="resultado">
+
+            Esperando generación...
+
+        </div>
+
+    </section>
+
+    <!-- ANALIZADOR -->
+
+    <section class="card">
+
+        <h2>🧠 Analizar Mensaje</h2>
+
+        <textarea
+            id="analizarTexto"
+            rows="5"
+            placeholder="Pega aquí un mensaje para analizar..."
+        ></textarea>
+
+        <button id="analizarBtn">
+
+            Analizar
+
+        </button>
+
+        <div id="analisisResultado">
+
+        </div>
+
+    </section>
+
+    <!-- REFINADORES -->
+
+    <section class="card">
+
+        <h2>⚙️ Refinar</h2>
+
+        <div class="refinadores">
+
+            <button class="refine-btn" data-action="impactante">
+                🔥 Más impactante
+            </button>
+
+            <button class="refine-btn" data-action="emocional">
+                ❤️ Más emocional
+            </button>
+
+            <button class="refine-btn" data-action="reflexivo">
+                🧠 Más reflexivo
+            </button>
+
+            <button class="refine-btn" data-action="viral">
+                ⚡ Más viral
+            </button>
+
+            <button class="refine-btn" data-action="corto">
+                ✂️ Más corto
+            </button>
+
+            <button class="refine-btn" data-action="directo">
+                🎯 Más directo
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- PUNTUACIÓN -->
+
+    <section class="card">
+
+        <h2>📊 Puntuación</h2>
+
+        <div class="score-grid">
+
+            <div class="score-box">
+                <span>Impacto</span>
+                <strong id="scoreImpacto">0</strong>
+            </div>
+
+            <div class="score-box">
+                <span>Reflexión</span>
+                <strong id="scoreReflexion">0</strong>
+            </div>
+
+            <div class="score-box">
+                <span>Claridad</span>
+                <strong id="scoreClaridad">0</strong>
+            </div>
+
+            <div class="score-box">
+                <span>Viralidad</span>
+                <strong id="scoreViralidad">0</strong>
+            </div>
+
+            <div class="score-box">
+                <span>Estilo Vladimiro</span>
+                <strong id="scoreVladimiro">0</strong>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- FAVORITOS -->
+
+    <section class="card">
+
+        <h2>⭐ Favoritos</h2>
+
+        <button id="guardarFavorito">
+
+            Guardar Favorito
+
+        </button>
+
+        <div id="favoritos">
+
+        </div>
+
+    </section>
+
+    <!-- HISTORIAL -->
+
+    <section class="card">
+
+        <h2>📜 Historial</h2>
+
+        <div id="historial">
+
+        </div>
+
+    </section>
+
+    <!-- BIBLIOTECA -->
+
+    <section class="card">
+
+        <h2>📚 Biblioteca Vladimiro</h2>
+
+        <div id="biblioteca">
+
+            Cargando prompts...
+
+        </div>
+
+    </section>
+
+    <!-- INSTAGRAM -->
+
+    <section class="card">
+
+        <h2>📱 Carrusel Instagram</h2>
+
+        <button id="instagramBtn">
+
+            Generar Carrusel
+
+        </button>
+
+        <div id="instagramResult">
+
+        </div>
+
+    </section>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
