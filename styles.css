@@ -1,1 +1,155 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
+body{
+    font-family:'Poppins',sans-serif;
+    background:#0f1115;
+    color:#ffffff;
+    padding:20px;
+}
+
+.container{
+    max-width:900px;
+    margin:auto;
+}
+
+header{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+h1{
+    font-size:2rem;
+    margin-bottom:10px;
+}
+
+.subtitle{
+    color:#a0a0a0;
+    font-size:0.95rem;
+}
+
+.card{
+    background:#1a1d24;
+    border-radius:20px;
+    padding:20px;
+    margin-bottom:20px;
+    border:1px solid #2b2f38;
+}
+
+h2{
+    margin-bottom:15px;
+    color:#ffffff;
+    font-size:1.2rem;
+}
+
+label{
+    display:block;
+    margin-top:15px;
+    margin-bottom:6px;
+    color:#cccccc;
+}
+
+input,
+textarea,
+select{
+    width:100%;
+    background:#2a2f39;
+    color:white;
+    border:none;
+    border-radius:12px;
+    padding:14px;
+    font-size:16px;
+}
+
+textarea{
+    resize:vertical;
+}
+
+button{
+    width:100%;
+    border:none;
+    border-radius:12px;
+    padding:14px;
+    cursor:pointer;
+    font-weight:600;
+    margin-top:15px;
+    background:#ff8a00;
+    color:white;
+}
+
+button:hover{
+    opacity:0.9;
+}
+
+#resultado{
+    min-height:120px;
+    line-height:1.6;
+    color:#e8e8e8;
+}
+
+.refinadores{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.refine-btn{
+    margin-top:0;
+}
+
+.score-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+}
+
+.score-box{
+    background:#2a2f39;
+    padding:15px;
+    border-radius:12px;
+    text-align:center;
+}
+
+.score-box span{
+    display:block;
+    color:#aaaaaa;
+    margin-bottom:5px;
+}
+
+.score-box strong{
+    font-size:1.4rem;
+}
+
+.switch-container{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top:20px;
+}
+
+#favoritos,
+#historial,
+#biblioteca,
+#instagramResult,
+#analisisResultado{
+    margin-top:15px;
+}
+
+@media(max-width:768px){
+
+    h1{
+        font-size:1.7rem;
+    }
+
+    .refinadores{
+        grid-template-columns:1fr;
+    }
+
+    .score-grid{
+        grid-template-columns:1fr;
+    }
+
+}
