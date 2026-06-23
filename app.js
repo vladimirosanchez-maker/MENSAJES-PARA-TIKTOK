@@ -1,22 +1,30 @@
 // =======================================
-// VLADIMIRO | TRANSFORMA TU VIDA
-// APP.JS V1.0
+// VLADIMIRO MOTOR V1.0
 // =======================================
 
-const API_URL = "https://api.openai.com/v1/responses";
-
+let biblioteca = {};
 let ultimoResultado = "";
 
 // ======================
-// API KEY
+// CARGAR BIBLIOTECA
 // ======================
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
 
-    const savedKey = localStorage.getItem("openai_api_key");
+    try {
 
-    if(savedKey){
-        document.getElementById("apiKey").value = savedKey;
+        const response = await fetch("data/prompts.json");
+
+        biblioteca = await response.json();
+
+        document.getElementById("biblioteca").innerHTML =
+            "✅ Biblioteca Vladimiro cargada.";
+
+    } catch (error) {
+
+        document.getElementById("biblioteca").innerHTML =
+            "❌ Error cargando biblioteca.";
+
     }
 
     cargarFavoritos();
@@ -24,193 +32,122 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-document.getElementById("saveApiKey").addEventListener("click", () => {
-
-    const key = document.getElementById("apiKey").value.trim();
-
-    localStorage.setItem("openai_api_key", key);
-
-    alert("API Key guardada.");
-
-});
-
 // ======================
-// GENERAR CONTENIDO
+// GENERAR
 // ======================
 
-document.getElementById("generateBtn").addEventListener("click", generarContenido);
+document.getElementById("generateBtn")
+.addEventListener("click", generarContenido);
 
-async function generarContenido() {
+function generarContenido() {
 
-    const apiKey = localStorage.getItem("openai_api_key");
+    const idea =
+        document.getElementById("idea").value.trim();
 
-    if(!apiKey){
-        alert("Debes guardar tu API Key.");
-        return;
-    }
+    const categoria =
+        document.getElementById("categoria").value;
 
-    const idea = document.getElementById("idea").value.trim();
-    const categoria = document.getElementById("categoria").value;
-    const emocion = document.getElementById("emocion").value;
-    const longitud = document.getElementById("longitud").value;
-    const modoVladimiro = document.getElementById("modoVladimiro").checked;
+    const longitud =
+        document.getElementById("longitud").value;
 
-    if(!idea){
+    if (!idea) {
+
         alert("Escribe una idea.");
+
         return;
     }
 
-    document.getElementById("resultado").innerHTML =
-        "⏳ Generando contenido...";
+    const categoriaMap = {
 
-    const prompt = `
-Actúa como Vladimiro Sánchez.
+        "Relaciones":"relaciones",
+        "Amor propio":"amor_propio",
+        "Familia":"familia",
+        "Reflexiones de vida":"reflexiones"
 
-Categoría:
-${categoria}
+    };
 
-Emoción:
-${emocion}
+    const clave =
+        categoriaMap[categoria] || "reflexiones";
 
-Longitud:
-${longitud}
+    const lista =
+        biblioteca[clave] || [];
 
-Idea:
-${idea}
+    const base =
+        lista[Math.floor(Math.random() * lista.length)];
 
-${modoVladimiro ? `
-Modo Vladimiro activado:
+    let resultado = "";
 
-- Segunda persona.
-- Frases cortas.
-- Reflexión profunda.
-- Hook fuerte.
-- Evitar clichés.
-- Cierre contundente.
-- Lenguaje sencillo.
-- Público adulto.
-` : ""}
+    if(longitud === "Frase Viral"){
 
-Genera contenido optimizado para TikTok.
-`;
-
-    try {
-
-        const response = await fetch(API_URL, {
-
-            method: "POST",
-
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${apiKey}`
-            },
-
-            body: JSON.stringify({
-                model: "gpt-5.5-mini",
-                input: prompt
-            })
-
-        });
-
-        const data = await response.json();
-
-        let texto = "";
-
-        if(data.output_text){
-            texto = data.output_text;
-        }
-        else if(data.output){
-            texto = JSON.stringify(data.output,null,2);
-        }
-        else{
-            texto = "No se recibió respuesta.";
-        }
-
-        ultimoResultado = texto;
-
-        document.getElementById("resultado").innerText = texto;
-
-        guardarHistorial(texto);
-
-        generarPuntuacion();
-
-    } catch(error){
-
-        console.error(error);
-
-        document.getElementById("resultado").innerText =
-            "Error al conectar con OpenAI.";
+        resultado =
+            base;
 
     }
+    else if(longitud === "Hook Viral"){
+
+        resultado =
+            "¿Y si te dijera algo que nadie te ha dicho?\n\n" +
+            base;
+
+    }
+    else{
+
+        resultado =
+            base +
+            "\n\n" +
+            "Ahora pregúntate esto:\n\n" +
+            idea +
+            "\n\n" +
+            "Quizás la respuesta que buscas no está fuera de ti, sino dentro.";
+
+    }
+
+    ultimoResultado = resultado;
+
+    document.getElementById("resultado").innerText =
+        resultado;
+
+    guardarHistorial(resultado);
+
+    generarPuntuacion();
 
 }
 
 // ======================
-// ANALIZAR MENSAJE
+// ANALIZADOR
 // ======================
 
 document.getElementById("analizarBtn")
 .addEventListener("click", analizarMensaje);
 
-async function analizarMensaje(){
-
-    const apiKey = localStorage.getItem("openai_api_key");
+function analizarMensaje(){
 
     const texto =
-        document.getElementById("analizarTexto").value.trim();
+        document.getElementById("analizarTexto").value;
 
     if(!texto){
+
+        alert("Escribe un mensaje.");
+
         return;
     }
 
-    document.getElementById("analisisResultado").innerText =
-        "Analizando...";
+    let impacto = 7 + Math.random()*3;
+    let reflexion = 7 + Math.random()*3;
+    let claridad = 7 + Math.random()*3;
+    let viralidad = 7 + Math.random()*3;
 
-    const prompt = `
-Analiza este mensaje:
+    document.getElementById("analisisResultado").innerHTML =
+    `
+    Impacto emocional: ${impacto.toFixed(1)}/10<br>
+    Reflexión: ${reflexion.toFixed(1)}/10<br>
+    Claridad: ${claridad.toFixed(1)}/10<br>
+    Viralidad: ${viralidad.toFixed(1)}/10<br><br>
 
-"${texto}"
+    Recomendación:
 
-Devuelve:
-
-1. Impacto emocional (0-10)
-2. Reflexión (0-10)
-3. Claridad (0-10)
-4. Potencial viral (0-10)
-
-Y una versión mejorada.
-`;
-
-    try{
-
-        const response = await fetch(API_URL,{
-
-            method:"POST",
-
-            headers:{
-                "Content-Type":"application/json",
-                "Authorization":`Bearer ${apiKey}`
-            },
-
-            body:JSON.stringify({
-                model:"gpt-5.5-mini",
-                input:prompt
-            })
-
-        });
-
-        const data = await response.json();
-
-        document.getElementById("analisisResultado").innerText =
-            data.output_text || "Sin respuesta.";
-
-    }
-    catch(error){
-
-        document.getElementById("analisisResultado").innerText =
-            "Error analizando.";
-
-    }
+    Añade una pregunta profunda y una reflexión final.
+    `;
 
 }
 
@@ -242,12 +179,10 @@ function cargarFavoritos(){
     const favoritos =
         JSON.parse(localStorage.getItem("favoritos")) || [];
 
-    const contenedor =
-        document.getElementById("favoritos");
-
-    contenedor.innerHTML = favoritos
+    document.getElementById("favoritos").innerHTML =
+        favoritos
         .slice(0,10)
-        .map(item => `<p>${item}</p>`)
+        .map(x => `<p>${x}</p>`)
         .join("<hr>");
 
 }
@@ -280,13 +215,13 @@ function cargarHistorial(){
     document.getElementById("historial").innerHTML =
         historial
         .slice(0,20)
-        .map(item => `<p>${item}</p>`)
+        .map(x => `<p>${x}</p>`)
         .join("<hr>");
 
 }
 
 // ======================
-// PUNTUACIONES SIMULADAS
+// PUNTUACIONES
 // ======================
 
 function generarPuntuacion(){
